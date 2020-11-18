@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceX Data Viewer</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container-fluid p-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <h3>SPACEX Launch Program</h3>
+                <div class="row bg-white p-2">
+                    <div class="col-12">
+                        <h4>Filters</h4>
+                        <h5 class="text-center">Launch Year</h5>
+                        <hr>
+                    </div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2006</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2007</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2008</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2009</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2010</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2011</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2012</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2013</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2014</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2015</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2016</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2017</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2018</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2019</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">2020</button></div>
+                    <div class="col-12 mt-3">
+                        <h5 class="text-center">Successful Launch</h5>
+                        <hr>
+                    </div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">True</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">False</button></div>
+                    <div class="col-12 mt-3">
+                        <h5 class="text-center">Successful Landing</h5>
+                        <hr>
+                    </div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">True</button></div>
+                    <div class="col-6 p-2"><button class="btn btn-success w-100" data-toggle="button" aria-pressed="false">False</button></div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="row row-eq-height" id="programs"></div>
+            </div>
+        </div>
+        <div class="text-center">
+            <strong>Developed By : </strong> {Developer Name}
+        </div>
+    </div>
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            api_endpoint = "https://api.spaceXdata.com/v3/launches?limit=100";
+            $.getJSON(api_endpoint, function( data ) {
+                console.log(data);
+                console.log(data[0].mission_name);
+
+                var card = "";
+                
+                $.each( data, function( key, val ) {
+                    mission_ids = 'Not availble';
+                    if (val.hasOwnProperty('mission_id'))
+                    {
+                        mission_id = val.mission_id.join(',');
+                    }
+
+                    mission = '<div class="col-sm-12 col-md-6 col-lg-3 p-3"><div class="card p-1"><img src="'+val.links.mission_patch+'" class="card-img-top img-fluid" alt=""><div class="card-body"><div class="text-primary">'+val.mission_name+'#'+val.flight_number+'</div><strong>Mission Id : </strong>'+mission_id+'<br/><strong>Launch Year : </strong>'+val.launch_year+'<br/><strong>Successful Launch : </strong>'+val.launch_success+'<br/><strong>Successful Landings : </strong>'+val.land_success+'</div></div></div>';
+
+                    $("#programs").append(mission);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
